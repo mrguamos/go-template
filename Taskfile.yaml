@@ -1,0 +1,28 @@
+version: "3"
+vars:
+  FINAL_NAME: go-template
+tasks:
+  dev:
+    cmds:
+      - "air"
+  build:
+    cmds:
+      - "rm -rf ./dist/*"
+      - "go build -o dist/{{.FINAL_NAME}} ."
+  migration-create: #task migration-create -- init
+    desc: "usage: task migration-create -- name_of_migration"
+    cmds:
+      - "goose -dir migrations create {{.CLI_ARGS}} sql"
+  install:
+    desc: "install all cli tools"
+    deps:
+      - goose
+      - air
+  goose:
+    internal: true
+    cmds:
+      - "go install github.com/pressly/goose/v3/cmd/goose@latest"
+  air:
+    internal: true
+    cmds:
+      - "go install github.com/air-verse/air@latest"  

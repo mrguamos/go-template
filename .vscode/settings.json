@@ -1,0 +1,26 @@
+{
+    "go.lintTool": "golangci-lint",
+    "go.lintFlags": [
+        "--fast"
+    ],
+    "tailwindCSS.includeLanguages": {
+        "go": "go"
+    },   
+    "tailwindCSS.experimental.classRegex": [
+        ["Class\\(([^)]*)\\)", "[\"`]([^\"`]*)[\"`]"], // Class("...") or Class(`...`)
+        ["Classes\\(([^)]*)\\)", "[\"`]([^\"`]*)[\"`]"], // Classes("...") or Classes(`...`)
+        ["Class\\{([^)]*)\\}", "[\"`]([^\"`]*)[\"`]"], // Class{"..."} or Class{`...`}
+        ["Classes\\{([^)]*)\\}", "[\"`]([^\"`]*)[\"`]"], // Classes{"..."} or Classes{`...`}
+        ["Class:\\s*[\"`]([^\"`]*)[\"`]"], // Class: "..." or Class: `...`
+        ["Classes:\\s*[\"`]([^\"`]*)[\"`]"], // Classes: "..." or Classes: `...`
+    ],
+    "files.associations": { "*.css": "tailwindcss" },
+    "editor.quickSuggestions": {
+        "strings": "on"
+    },
+    "Prettier-SQL.SQLFlavourOverride": "postgresql",
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": "explicit"
+    },
+    "editor.formatOnSave": true
+}

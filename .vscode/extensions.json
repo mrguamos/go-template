@@ -1,0 +1,8 @@
+{
+    "recommendations": [
+        "golang.go",
+        "bradlc.vscode-tailwindcss",
+        "esbenp.prettier-vscode",
+         "inferrinizzard.prettier-sql-vscode"
+    ]
+}
