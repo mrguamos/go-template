@@ -30,5 +30,3 @@ go.work.sum
 dist/
 .air.toml
 
-# node
-node_modules/
