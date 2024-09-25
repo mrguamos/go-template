@@ -29,3 +29,6 @@ go.work.sum
 # build
 dist/
 .air.toml
+
+# node
+node_modules/
