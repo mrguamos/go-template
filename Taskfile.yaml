@@ -3,8 +3,9 @@ vars:
   FINAL_NAME: go-template
 tasks:
   dev:
-    cmds:
-      - "air"
+    deps:
+      - "tailwind"
+      - "live-reload" 
   build:
     deps:
       - "install-dependencies"
@@ -43,3 +44,11 @@ tasks:
     internal: true
     cmds:
       - "go mod tidy"      
+  tailwind:
+    internal: true
+    cmds:
+      - "npm run dev"    
+  live-reload:
+    internal: true
+    cmds:
+      - "air"        

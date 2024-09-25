@@ -34,7 +34,6 @@ func main() {
 		httpError, ok := err.(*echo.HTTPError)
 		if ok {
 			errorCode := httpError.Code
-			fmt.Println(fmt.Sprintf("/error?code=%d", errorCode))
 			c.Redirect(http.StatusTemporaryRedirect, fmt.Sprintf("/error?code=%d", errorCode))
 		}
 	}
