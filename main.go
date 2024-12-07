@@ -21,9 +21,11 @@ func main() {
 	e.Static("/assets", "web/assets")
 	e.Use(auth.AuthMiddlewareWithConfig(auth.AuthMiddlewareConfig{
 		Skipper: func(c echo.Context) bool {
+			fmt.Println(c.Path())
 			if strings.HasPrefix(c.Path(), "/assets") ||
 				strings.HasPrefix(c.Path(), "/error") ||
-				strings.HasPrefix(c.Path(), "/login") {
+				strings.HasPrefix(c.Path(), "/login") ||
+				c.Path() == "favicon.ico" {
 				return true
 			}
 			return false

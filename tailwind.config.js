@@ -3,7 +3,7 @@ const { fontFamily } = require("tailwindcss/defaultTheme")
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    './web/view/**/*.go'
+    './web/**/*.{go,html,js}'
   ],
   darkMode: ["class"],
   theme: {
@@ -74,6 +74,6 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [],
 }
 
