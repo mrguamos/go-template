@@ -38,35 +38,17 @@ var menuItems = []struct {
 
 func Sidebar() g.Node {
 	return Div(
+		// Hidden checkbox to control mini state
+		Input(
+			Type("checkbox"),
+			ID("sidebar-toggle"),
+			Class("hidden"),
+		),
 		Div(
-			Class("py-2 fixed flex flex-col h-screen bg-gray-800 text-white transition-all duration-300 ease-in-out w-64 overflow-y-auto overflow-x-hidden"),
-			g.Attr("x-data", `{
-				mini: false,
-				expanded: [],
-				toggleSidebar() {
-					this.mini = !this.mini;
-					$el.style.width = this.mini ? '64px' : '256px';
-					document.querySelector('.main-content').style.marginLeft = this.mini ? '64px' : '256px';
-
-					// Handle collapsible elements
-					$el.querySelectorAll('[x-bind\\:data-mini]').forEach(el => {
-						if (this.mini) {
-							el.style.width = '0';
-							el.style.opacity = '0';
-							el.style.visibility = 'hidden';
-						} else {
-							el.style.width = 'auto';
-							el.style.opacity = '1';
-							el.style.visibility = 'visible';
-						}
-					});
-
-					// Clear expanded items when collapsing
-					if (this.mini) {
-						this.expanded = [];
-					}
-				},
-			}`), g.Attr("x-bind:data-mini", "mini"),
+			Class(`
+				py-2 fixed flex flex-col h-screen bg-gray-800 text-white transition-all duration-300 ease-in-out overflow-y-auto overflow-x-hidden
+				w-64 [#sidebar-toggle:checked~&]:w-16
+			`),
 			// Header section
 			Div(Class("px-2"),
 				// Logo and title row
@@ -78,34 +60,37 @@ func Sidebar() g.Node {
 						),
 					),
 					// Title container
-					Div(Class("flex-1 transition-all duration-300 overflow-hidden"),
-						g.Attr("x-bind:data-mini", "mini"),
+					Div(Class(`
+						flex-1 transition-all duration-300 overflow-hidden
+						[#sidebar-toggle:checked~*_&]:w-0 [#sidebar-toggle:checked~*_&]:opacity-0 [#sidebar-toggle:checked~*_&]:invisible
+					`),
 						Div(Class("text-lg font-semibold whitespace-nowrap"), g.Text("Cubework")),
 						Div(Class("text-sm text-gray-400 whitespace-nowrap"), g.Text("Parking Admin")),
 					),
-					// Collapse button for expanded state
-					Div(Class("flex items-center"),
-						g.Attr("data-expanded-btn", "true"),
-						g.Attr("x-show", "!mini"),
-						g.Attr("x-transition"),
-						Div(Class("cursor-pointer px-2 hover:bg-gray-700 rounded-lg"),
-							g.Attr("@click", "toggleSidebar()"),
+					// Update the collapse button for expanded state
+					Div(Class(`
+						flex items-center
+						[#sidebar-toggle:checked~*_&]:hidden
+					`),
+						Label(
+							For("sidebar-toggle"),
+							Class("cursor-pointer px-2 hover:bg-gray-700 rounded-lg"),
 							g.Raw(`<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"/></svg>`),
 						),
 					),
 				),
-				// Collapse button for mini state
+				// Update the collapse button for mini state
 				Div(
-					g.Attr("data-mini-btn", "true"),
-					g.Attr("x-show", "mini"),
-					g.Attr("x-cloak", ""),
-					g.Attr("x-transition"),
+					Class(`
+						hidden [#sidebar-toggle:checked~*_&]:block
+					`),
 					// Added flex container for centering
 					Div(Class("flex justify-center"),
 						// Fixed width container for consistent spacing
 						Div(Class("w-16 h-16 flex items-center justify-center"),
-							Div(Class("cursor-pointer p-2 hover:bg-gray-700 rounded-lg"),
-								g.Attr("@click", "toggleSidebar()"),
+							Label(
+								For("sidebar-toggle"),
+								Class("cursor-pointer p-2 hover:bg-gray-700 rounded-lg"),
 								g.Raw(`<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"/></svg>`),
 							),
 						),
@@ -119,8 +104,10 @@ func Sidebar() g.Node {
 			}) g.Node {
 				return Div(Class("px-3"),
 					// Section header
-					Div(Class("text-sm font-medium text-gray-400 mb-2 transition-opacity duration-300"),
-						g.Attr("x-bind:data-mini", "mini"),
+					Div(Class(`
+						text-sm font-medium text-gray-400 mb-2 transition-opacity duration-300
+						[#sidebar-toggle:checked~*_&]:opacity-0
+					`),
 						g.Text(section.Section),
 					),
 					// Section items
@@ -133,8 +120,10 @@ func Sidebar() g.Node {
 			// Footer with user profile
 			Div(Class("mt-auto"),
 				// Projects label - hidden in mini variant
-				Div(Class("text-sm font-medium text-gray-400 px-3 mb-2 transition-all duration-300 overflow-hidden"),
-					g.Attr("x-bind:data-mini", "mini"),
+				Div(Class(`
+					text-sm font-medium text-gray-400 px-3 mb-2 transition-all duration-300 overflow-hidden
+					[#sidebar-toggle:checked~*_&]:w-0 [#sidebar-toggle:checked~*_&]:opacity-0 [#sidebar-toggle:checked~*_&]:invisible
+				`),
 				),
 				// User profile container
 				Div(Class("flex items-center cursor-pointer hover:bg-gray-700/50 rounded-lg"),
@@ -147,8 +136,10 @@ func Sidebar() g.Node {
 						),
 					),
 					// User info and dropdown - hidden in mini variant
-					Div(Class("flex-1 flex items-center transition-all duration-300 overflow-hidden"),
-						g.Attr("x-bind:data-mini", "mini"),
+					Div(Class(`
+						flex-1 flex items-center transition-all duration-300 overflow-hidden
+						[#sidebar-toggle:checked~*_&]:w-0 [#sidebar-toggle:checked~*_&]:opacity-0 [#sidebar-toggle:checked~*_&]:invisible
+					`),
 						// User info
 						Div(Class("flex flex-col"),
 							Div(Class("text-sm whitespace-nowrap"), g.Text("shadcn")),
@@ -169,53 +160,77 @@ func NavigationItem(item MenuItem) g.Node {
 	hasSubmenu := len(item.SubItems) > 0
 	return Div(
 		Class("group relative"),
-		g.Attr("x-data", `{
-			toggle() {
-				if(mini) return;
-				if (!mini) {
-					if (expanded.includes('${item.Label}')) {
-						expanded = expanded.filter(i => i !== '${item.Label}')
-					} else {
-						expanded.push('${item.Label}')
-					}
-				}
-			}
-		}`),
+		// Hidden checkbox for submenu toggle
+		g.If(hasSubmenu,
+			Input(
+				Type("checkbox"),
+				ID("submenu-"+item.Label),
+				Class("peer hidden"),
+			),
+		),
 		// Menu item button
-		Div(Class("flex items-center hover:bg-gray-700/50 rounded-lg cursor-pointer px-2 py-2"),
-			g.Attr("@click", "toggle"),
-			// Icon container with fixed width for centering
+		Label(
+			g.If(hasSubmenu, For("submenu-"+item.Label)),
+			Class("flex items-center hover:bg-gray-700/50 rounded-lg cursor-pointer px-2 py-2"),
+			// Icon container
 			Div(Class("w-16 flex items-center justify-center"),
 				Div(Class("w-5 h-5 text-gray-400"),
 					getIcon(item.Icon),
 				),
 			),
 			// Label and chevron container
-			Div(Class("flex-1 flex items-center transition-all duration-300 overflow-hidden"),
-				g.Attr("x-bind:data-mini", "mini"),
+			Div(Class(`
+				flex-1 flex items-center transition-all duration-300 overflow-hidden
+				[#sidebar-toggle:checked~*_&]:w-0 [#sidebar-toggle:checked~*_&]:opacity-0 [#sidebar-toggle:checked~*_&]:invisible
+			`),
 				// Label
 				Div(Class("text-sm font-medium text-gray-200 whitespace-nowrap"),
 					g.Text(item.Label),
 				),
-				// Chevron
+				// Chevron for submenu
 				g.If(hasSubmenu,
-					Div(Class("chevron ml-auto pr-2"),
-						g.Attr("x-bind:style", `expanded.includes('${item.Label}') ? 'transform: rotate(90deg)' : ''`),
-						g.Raw(`<svg class="w-4 h-4 text-gray-400 transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>`),
+					Div(Class(`
+						chevron ml-auto pr-2 transition-transform duration-200
+						peer-checked:rotate-90
+					`),
+						g.Raw(`<svg class="w-4 h-4 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>`),
 					),
 				),
 			),
 		),
-		// Submenu
+		// Popover for mini state
 		g.If(hasSubmenu,
 			Div(Class(`
-				submenu overflow-hidden transition-all duration-200
-				data-[mini="false"]:max-h-0
-				data-[mini="true"]:hidden group-hover:data-[mini="true"]:block
+				absolute left-full top-0 ml-2 bg-gray-800 rounded-lg shadow-lg z-50 w-48
+				opacity-0 invisible translate-x-2
+				transition-all duration-200
+				[#sidebar-toggle:checked~*_.group:hover_&]:opacity-100
+				[#sidebar-toggle:checked~*_.group:hover_&]:visible
+				[#sidebar-toggle:checked~*_.group:hover_&]:translate-x-0
 			`),
-				g.Attr("x-cloak", ""),
-				g.Attr("x-bind:style", `expanded.includes('${item.Label}') ? 'max-height: ' + $el.scrollHeight + 'px' : 'max-height: 0px'`),
-				Div(Class("pl-10 py-1 space-y-1 data-[mini='true']:pl-0"),
+				Div(Class("py-1"),
+					g.Group(g.Map(item.SubItems, func(subItem MenuItem) g.Node {
+						return Div(
+							Class("flex items-center gap-3 px-3 py-2 hover:bg-gray-700/50 cursor-pointer"),
+							Div(Class("w-5 h-5 text-gray-400"),
+								getIcon(subItem.Icon),
+							),
+							Div(Class("text-sm font-medium text-gray-200"),
+								g.Text(subItem.Label),
+							),
+						)
+					})),
+				),
+			),
+		),
+		// Submenu for expanded state
+		g.If(hasSubmenu,
+			Div(Class(`
+				overflow-hidden transition-all duration-200 max-h-0
+				peer-checked:max-h-[1000px]
+				[#sidebar-toggle:checked~*_&]:hidden
+			`),
+				Div(Class("pl-10 py-1 space-y-1"),
 					g.Group(g.Map(item.SubItems, func(subItem MenuItem) g.Node {
 						return Div(Class("flex items-center gap-3 px-3 py-2 hover:bg-gray-700/50 rounded-lg cursor-pointer"),
 							Div(Class("w-5 h-5 text-gray-400"),

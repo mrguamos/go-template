@@ -597,8 +597,16 @@ video {
   }
 }
 
+.peer-checked ~ .chevron {
+  transform: rotate(90deg);
+}
+
 .visible {
   visibility: visible;
+}
+
+.invisible {
+  visibility: hidden;
 }
 
 .collapse {
@@ -621,8 +629,16 @@ video {
   left: 100%;
 }
 
+.right-4 {
+  right: 1rem;
+}
+
 .top-0 {
   top: 0px;
+}
+
+.top-4 {
+  top: 1rem;
 }
 
 .z-50 {
@@ -636,6 +652,10 @@ video {
 
 .mb-2 {
   margin-bottom: 0.5rem;
+}
+
+.ml-2 {
+  margin-left: 0.5rem;
 }
 
 .ml-64 {
@@ -660,14 +680,6 @@ video {
 
 .mt-auto {
   margin-top: auto;
-}
-
-.ml-2 {
-  margin-left: 0.5rem;
-}
-
-.block {
-  display: block;
 }
 
 .inline {
@@ -738,6 +750,10 @@ video {
   width: 1rem;
 }
 
+.w-48 {
+  width: 12rem;
+}
+
 .w-5 {
   width: 1.25rem;
 }
@@ -758,10 +774,6 @@ video {
   width: 100%;
 }
 
-.w-48 {
-  width: 12rem;
-}
-
 .max-w-md {
   max-width: 28rem;
 }
@@ -770,15 +782,8 @@ video {
   flex: 1 1 0%;
 }
 
-.scale-100 {
-  --tw-scale-x: 1;
-  --tw-scale-y: 1;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-
-.scale-95 {
-  --tw-scale-x: .95;
-  --tw-scale-y: .95;
+.translate-x-2 {
+  --tw-translate-x: 0.5rem;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
@@ -870,10 +875,6 @@ video {
   padding-bottom: 0.5rem;
 }
 
-.pl-0 {
-  padding-left: 0px;
-}
-
 .pl-10 {
   padding-left: 2.5rem;
 }
@@ -961,10 +962,6 @@ video {
   opacity: 0;
 }
 
-.opacity-100 {
-  opacity: 1;
-}
-
 .shadow-lg {
   --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);
@@ -1009,24 +1006,8 @@ video {
   transition-duration: 300ms;
 }
 
-.duration-100 {
-  transition-duration: 100ms;
-}
-
-.duration-75 {
-  transition-duration: 75ms;
-}
-
 .ease-in-out {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.ease-in {
-  transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
-}
-
-.ease-out {
-  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
 }
 
 body {
@@ -1332,34 +1313,48 @@ input[type="password"]:disabled {
   text-decoration-line: underline;
 }
 
-.data-\[collapsed\=\"true\"\]\:hidden[data-collapsed="true"] {
-  display: none;
+.peer:checked ~ .peer-checked\:max-h-\[1000px\] {
+  max-height: 1000px;
 }
 
-.data-\[mini\=\"true\"\]\:hidden[data-mini="true"] {
-  display: none;
+.peer:checked ~ .peer-checked\:rotate-90 {
+  --tw-rotate: 90deg;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
-.data-\[collapsed\=\"false\"\]\:max-h-0[data-collapsed="false"] {
-  max-height: 0px;
+#sidebar-toggle:checked~.\[\#sidebar-toggle\:checked\~\&\]\:w-16 {
+  width: 4rem;
 }
 
-.data-\[mini\=\"false\"\]\:max-h-0[data-mini="false"] {
-  max-height: 0px;
+#sidebar-toggle:checked~* .\[\#sidebar-toggle\:checked\~\*_\&\]\:invisible {
+  visibility: hidden;
 }
 
-.data-\[collapsed\=\'true\'\]\:pl-0[data-collapsed='true'] {
-  padding-left: 0px;
-}
-
-.data-\[mini\=\'true\'\]\:pl-0[data-mini='true'] {
-  padding-left: 0px;
-}
-
-.group:hover .group-hover\:data-\[collapsed\=\"true\"\]\:block[data-collapsed="true"] {
+#sidebar-toggle:checked~* .\[\#sidebar-toggle\:checked\~\*_\&\]\:block {
   display: block;
 }
 
-.group:hover .group-hover\:data-\[mini\=\"true\"\]\:block[data-mini="true"] {
-  display: block;
+#sidebar-toggle:checked~* .\[\#sidebar-toggle\:checked\~\*_\&\]\:hidden {
+  display: none;
+}
+
+#sidebar-toggle:checked~* .\[\#sidebar-toggle\:checked\~\*_\&\]\:w-0 {
+  width: 0px;
+}
+
+#sidebar-toggle:checked~* .\[\#sidebar-toggle\:checked\~\*_\&\]\:opacity-0 {
+  opacity: 0;
+}
+
+#sidebar-toggle:checked~* .group:hover .\[\#sidebar-toggle\:checked\~\*_\.group\:hover_\&\]\:visible {
+  visibility: visible;
+}
+
+#sidebar-toggle:checked~* .group:hover .\[\#sidebar-toggle\:checked\~\*_\.group\:hover_\&\]\:translate-x-0 {
+  --tw-translate-x: 0px;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+#sidebar-toggle:checked~* .group:hover .\[\#sidebar-toggle\:checked\~\*_\.group\:hover_\&\]\:opacity-100 {
+  opacity: 1;
 }
