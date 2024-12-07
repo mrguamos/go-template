@@ -163,18 +163,10 @@ func NavigationItem(item MenuItem) g.Node {
 	checkboxID := strings.ReplaceAll(item.Label, " ", "-")
 	return Div(
 		Class("group relative"),
-		// Only the checkbox is conditional
-		g.If(hasSubmenu,
-			Input(
-				Type("checkbox"),
-				ID("submenu-"+checkboxID),
-				Class("peer hidden"),
-			),
-		),
-		// Label is always rendered
+		// Menu item button
 		Label(
 			g.If(hasSubmenu, For("submenu-"+checkboxID)),
-			Class("flex items-center w-full hover:bg-gray-700/50 rounded-lg cursor-pointer px-2 py-2"),
+			Class("flex items-center hover:bg-gray-700/50 rounded-lg cursor-pointer px-2 py-2"),
 			// Icon container
 			Div(Class("w-16 flex items-center justify-center"),
 				Div(Class("w-5 h-5 text-gray-400"),
@@ -186,24 +178,32 @@ func NavigationItem(item MenuItem) g.Node {
 				flex-1 flex items-center transition-all duration-300 overflow-hidden
 				[#sidebar-toggle:checked~*_&]:w-0 [#sidebar-toggle:checked~*_&]:opacity-0 [#sidebar-toggle:checked~*_&]:invisible
 			`),
+				// Label
 				Div(Class("text-sm font-medium text-gray-200 whitespace-nowrap"),
 					g.Text(item.Label),
 				),
-				// Chevron only if has submenu
+				// Chevron container with its own checkbox
 				g.If(hasSubmenu,
-					Div(Class(`
-						ml-auto pr-2 transition-transform duration-200
-						peer-checked:rotate-90
-						[#sidebar-toggle:checked~*_&]:hidden
-					`),
-						g.Raw(`<svg class="w-4 h-4 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-						</svg>`),
+					Div(Class("relative ml-auto pr-2"),
+						Input(
+							Type("checkbox"),
+							ID("submenu-"+checkboxID),
+							Class("peer hidden"),
+						),
+						Div(Class(`
+							transition-transform duration-200
+							peer-checked:rotate-90
+							[#sidebar-toggle:checked~*_&]:hidden
+						`),
+							g.Raw(`<svg class="w-4 h-4 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+							</svg>`),
+						),
 					),
 				),
 			),
 		),
-		// Submenu only if has submenu
+		// Submenu
 		g.If(hasSubmenu,
 			Div(Class(`
 				overflow-hidden transition-all duration-200 max-h-0
