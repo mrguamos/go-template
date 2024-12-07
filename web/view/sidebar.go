@@ -5,42 +5,6 @@ import (
 	. "github.com/maragudk/gomponents/html"
 )
 
-var collapseScript = `
-    const sidebar = this.closest('[data-collapsed]');
-    const isCollapsed = sidebar.dataset.collapsed === 'true';
-    const newCollapsed = !isCollapsed;
-    
-    sidebar.dataset.collapsed = newCollapsed;
-    sidebar.style.width = newCollapsed ? '64px' : '256px';
-    document.querySelector('.main-content').style.marginLeft = newCollapsed ? '64px' : '256px';
-    
-    // Close all submenus when collapsing
-    if (newCollapsed) {
-        sidebar.querySelectorAll('.submenu').forEach(submenu => {
-            submenu.style.maxHeight = '0px';
-            const chevron = submenu.closest('.group').querySelector('.chevron svg');
-            if (chevron) chevron.style.transform = 'rotate(0deg)';
-        });
-    }
-    
-    sidebar.querySelectorAll('[data-collapsed]').forEach(el => {
-        if (!newCollapsed) {
-            el.style.width = 'auto';
-            el.style.opacity = '1';
-            el.style.visibility = 'visible';
-        } else {
-            el.style.width = '0';
-            el.style.opacity = '0';
-            el.style.visibility = 'hidden';
-        }
-    });
-    
-    const expandedBtn = sidebar.querySelector('[data-expanded-btn]');
-    const collapsedBtn = sidebar.querySelector('[data-collapsed-btn]');
-    expandedBtn.style.display = newCollapsed ? 'none' : 'flex';
-    collapsedBtn.style.display = newCollapsed ? 'flex' : 'none';
-`
-
 // Menu item structure
 type MenuItem struct {
 	Label    string
@@ -74,8 +38,41 @@ var menuItems = []struct {
 
 func Sidebar() g.Node {
 	return Div(
-		Div(Class("py-2 fixed flex flex-col h-screen bg-gray-800 text-white transition-all duration-300 ease-in-out w-64 overflow-y-auto overflow-x-hidden"),
-			g.Attr("data-collapsed", "false"),
+		Div(
+			Class("py-2 fixed flex flex-col h-screen bg-gray-800 text-white transition-all duration-300 ease-in-out w-64 overflow-y-auto overflow-x-hidden"),
+			g.Attr("x-data", `{
+				collapsed: false,
+				init() {
+					this.$watch('collapsed', value => {
+						// Handle width transitions
+						this.$el.style.width = value ? '64px' : '256px';
+						document.querySelector('.main-content').style.marginLeft = value ? '64px' : '256px';
+
+						// Handle collapsible elements
+						this.$el.querySelectorAll('[x-bind\\:data-collapsed]').forEach(el => {
+							if (value) {
+								el.style.width = '0';
+								el.style.opacity = '0';
+								el.style.visibility = 'hidden';
+							} else {
+								el.style.width = 'auto';
+								el.style.opacity = '1';
+								el.style.visibility = 'visible';
+							}
+						});
+
+						// Close all submenus when collapsing
+						if (value) {
+							this.$el.querySelectorAll('.submenu').forEach(submenu => {
+								submenu.style.maxHeight = '0px';
+								const chevron = submenu.closest('.group').querySelector('.chevron svg');
+								if (chevron) chevron.style.transform = 'rotate(0deg)';
+							});
+						}
+					})
+				}
+			}`),
+			g.Attr("x-bind:data-collapsed", "collapsed"),
 			// Header section
 			Div(Class("px-2"),
 				// Logo and title row
@@ -88,26 +85,35 @@ func Sidebar() g.Node {
 					),
 					// Title container
 					Div(Class("flex-1 transition-all duration-300 overflow-hidden"),
-						g.Attr("data-collapsed", "false"),
+						g.Attr("x-bind:data-collapsed", "collapsed"),
 						Div(Class("text-lg font-semibold whitespace-nowrap"), g.Text("Cubework")),
 						Div(Class("text-sm text-gray-400 whitespace-nowrap"), g.Text("Parking Admin")),
 					),
 					// Collapse button for expanded state
 					Div(Class("flex items-center"),
 						g.Attr("data-expanded-btn", "true"),
-						Div(Class("cursor-pointer p-2 hover:bg-gray-700 rounded-lg"),
-							g.Attr("onclick", collapseScript),
+						g.Attr("x-show", "!collapsed"),
+						g.Attr("x-transition"),
+						Div(Class("cursor-pointer px-2 hover:bg-gray-700 rounded-lg"),
+							g.Attr("@click", "collapsed = true"),
 							g.Raw(`<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"/></svg>`),
 						),
 					),
 				),
 				// Collapse button for collapsed state
-				Div(Class("hidden"),
+				Div(
 					g.Attr("data-collapsed-btn", "true"),
-					Div(Class("w-16 h-8 flex items-center justify-center"),
-						Div(Class("cursor-pointer p-2 hover:bg-gray-700 rounded-lg"),
-							g.Attr("onclick", collapseScript),
-							g.Raw(`<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"/></svg>`),
+					g.Attr("x-show", "collapsed"),
+					g.Attr("x-cloak", ""),
+					g.Attr("x-transition"),
+					// Added flex container for centering
+					Div(Class("flex justify-center"),
+						// Fixed width container for consistent spacing
+						Div(Class("w-16 h-16 flex items-center justify-center"),
+							Div(Class("cursor-pointer p-2 hover:bg-gray-700 rounded-lg"),
+								g.Attr("@click", "collapsed = false"),
+								g.Raw(`<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"/></svg>`),
+							),
 						),
 					),
 				),
@@ -120,7 +126,7 @@ func Sidebar() g.Node {
 				return Div(Class("px-3"),
 					// Section header
 					Div(Class("text-sm font-medium text-gray-400 mb-2 transition-opacity duration-300"),
-						g.Attr("data-collapsed", "false"),
+						g.Attr("x-bind:data-collapsed", "collapsed"),
 						g.Text(section.Section),
 					),
 					// Section items
@@ -134,7 +140,7 @@ func Sidebar() g.Node {
 			Div(Class("mt-auto"),
 				// Projects label - hidden in mini variant
 				Div(Class("text-sm font-medium text-gray-400 px-3 mb-2 transition-all duration-300 overflow-hidden"),
-					g.Attr("data-collapsed", "false"),
+					g.Attr("x-bind:data-collapsed", "collapsed"),
 				),
 				// User profile container
 				Div(Class("flex items-center cursor-pointer hover:bg-gray-700/50 rounded-lg"),
@@ -148,7 +154,7 @@ func Sidebar() g.Node {
 					),
 					// User info and dropdown - hidden in mini variant
 					Div(Class("flex-1 flex items-center transition-all duration-300 overflow-hidden"),
-						g.Attr("data-collapsed", "false"),
+						g.Attr("x-bind:data-collapsed", "collapsed"),
 						// User info
 						Div(Class("flex flex-col"),
 							Div(Class("text-sm whitespace-nowrap"), g.Text("shadcn")),
@@ -167,20 +173,20 @@ func Sidebar() g.Node {
 
 func NavigationItem(item MenuItem) g.Node {
 	hasSubmenu := len(item.SubItems) > 0
-	return Div(Class("group relative"),
+	return Div(
+		Class("group relative"),
+		g.Attr("x-data", `{
+			expanded: false,
+			toggle() {
+				if(collapsed) return;
+				if (!this.$root.collapsed) {
+					this.expanded = !this.expanded;
+				}
+			}
+		}`),
 		// Menu item button
 		Div(Class("flex items-center hover:bg-gray-700/50 rounded-lg cursor-pointer px-2 py-2"),
-			g.Attr("onclick", `
-				const sidebar = this.closest('[data-collapsed]');
-				const isCollapsed = sidebar.dataset.collapsed === 'true';
-				if (!isCollapsed) {
-					const submenu = this.closest('.group').querySelector('.submenu');
-					const chevron = this.querySelector('.chevron svg');
-					const isExpanded = submenu.style.maxHeight !== '0px';
-					chevron.style.transform = isExpanded ? 'rotate(0deg)' : 'rotate(90deg)';
-					submenu.style.maxHeight = isExpanded ? '0px' : submenu.scrollHeight + 'px';
-				}
-			`),
+			g.Attr("@click", "toggle"),
 			// Icon container with fixed width for centering
 			Div(Class("w-16 flex items-center justify-center"),
 				Div(Class("w-5 h-5 text-gray-400"),
@@ -189,7 +195,7 @@ func NavigationItem(item MenuItem) g.Node {
 			),
 			// Label and chevron container
 			Div(Class("flex-1 flex items-center transition-all duration-300 overflow-hidden"),
-				g.Attr("data-collapsed", "false"),
+				g.Attr("x-bind:data-collapsed", "collapsed"),
 				// Label
 				Div(Class("text-sm font-medium text-gray-200 whitespace-nowrap"),
 					g.Text(item.Label),
@@ -197,18 +203,21 @@ func NavigationItem(item MenuItem) g.Node {
 				// Chevron
 				g.If(hasSubmenu,
 					Div(Class("chevron ml-auto pr-2"),
+						g.Attr("x-bind:style", `expanded ? 'transform: rotate(90deg)' : ''`),
 						g.Raw(`<svg class="w-4 h-4 text-gray-400 transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>`),
 					),
 				),
 			),
 		),
+		// Submenu
 		g.If(hasSubmenu,
 			Div(Class(`
 				submenu overflow-hidden transition-all duration-200
 				data-[collapsed="false"]:max-h-0
 				data-[collapsed="true"]:hidden group-hover:data-[collapsed="true"]:block
 			`),
-				g.Attr("style", "max-height: 0px"),
+				g.Attr("x-cloak", ""),
+				g.Attr("x-bind:style", `expanded ? 'max-height: ' + $el.scrollHeight + 'px' : 'max-height: 0px'`),
 				Div(Class("pl-10 py-1 space-y-1 data-[collapsed='true']:pl-0"),
 					g.Group(g.Map(item.SubItems, func(subItem MenuItem) g.Node {
 						return Div(Class("flex items-center gap-3 px-3 py-2 hover:bg-gray-700/50 rounded-lg cursor-pointer"),
