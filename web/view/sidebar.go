@@ -176,6 +176,11 @@ func NavigationItem(item MenuItem) g.Node {
 	return Div(
 		Class("group relative"),
 		g.Attr("x-data", `{
+			init() {
+				this.$watch('collapsed', value => {
+					this.expanded = false;
+				})
+			},
 			expanded: false,
 			toggle() {
 				if(collapsed) return;
