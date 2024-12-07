@@ -12,7 +12,7 @@ func Page(title string, body g.Node) g.Node {
 		Language: "en",
 		Head: []g.Node{
 			Link(g.Attr("rel", "stylesheet"), g.Attr("href", "/assets/css/output.css")),
-			Script(g.Attr("src", "/assets/js/alpine.js"), g.Attr("defer", "")),
+			//Script(g.Attr("src", "/assets/js/alpine.js"), g.Attr("defer", "")),
 		},
 		Body: []g.Node{
 			Div(Class("flex min-h-screen"),
@@ -36,7 +36,7 @@ func ErrorPage(title string, body g.Node, path, btnText string) g.Node {
 		Head: []g.Node{
 			Link(g.Attr("rel", "stylesheet"), g.Attr("href", "/assets/css/output.css")),
 			Link(g.Attr("rel", "icon"), g.Attr("href", "/assets/favicon.svg")),
-			Script(g.Attr("src", "/assets/js/alpine.js"), g.Attr("defer", "")),
+			//Script(g.Attr("src", "/assets/js/alpine.js"), g.Attr("defer", "")),
 		},
 		Body: []g.Node{
 			Div(Class("flex min-h-screen"),

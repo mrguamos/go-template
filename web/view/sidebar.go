@@ -1,6 +1,8 @@
 package view
 
 import (
+	"strings"
+
 	g "github.com/maragudk/gomponents"
 	. "github.com/maragudk/gomponents/html"
 )
@@ -158,20 +160,21 @@ func Sidebar() g.Node {
 
 func NavigationItem(item MenuItem) g.Node {
 	hasSubmenu := len(item.SubItems) > 0
+	checkboxID := strings.ReplaceAll(item.Label, " ", "-")
 	return Div(
 		Class("group relative"),
-		// Hidden checkbox for submenu toggle
+		// Only the checkbox is conditional
 		g.If(hasSubmenu,
 			Input(
 				Type("checkbox"),
-				ID("submenu-"+item.Label),
+				ID("submenu-"+checkboxID),
 				Class("peer hidden"),
 			),
 		),
-		// Menu item button
+		// Label is always rendered
 		Label(
-			g.If(hasSubmenu, For("submenu-"+item.Label)),
-			Class("flex items-center hover:bg-gray-700/50 rounded-lg cursor-pointer px-2 py-2"),
+			g.If(hasSubmenu, For("submenu-"+checkboxID)),
+			Class("flex items-center w-full hover:bg-gray-700/50 rounded-lg cursor-pointer px-2 py-2"),
 			// Icon container
 			Div(Class("w-16 flex items-center justify-center"),
 				Div(Class("w-5 h-5 text-gray-400"),
@@ -183,47 +186,24 @@ func NavigationItem(item MenuItem) g.Node {
 				flex-1 flex items-center transition-all duration-300 overflow-hidden
 				[#sidebar-toggle:checked~*_&]:w-0 [#sidebar-toggle:checked~*_&]:opacity-0 [#sidebar-toggle:checked~*_&]:invisible
 			`),
-				// Label
 				Div(Class("text-sm font-medium text-gray-200 whitespace-nowrap"),
 					g.Text(item.Label),
 				),
-				// Chevron for submenu
+				// Chevron only if has submenu
 				g.If(hasSubmenu,
 					Div(Class(`
-						chevron ml-auto pr-2 transition-transform duration-200
+						ml-auto pr-2 transition-transform duration-200
 						peer-checked:rotate-90
+						[#sidebar-toggle:checked~*_&]:hidden
 					`),
-						g.Raw(`<svg class="w-4 h-4 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>`),
+						g.Raw(`<svg class="w-4 h-4 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+						</svg>`),
 					),
 				),
 			),
 		),
-		// Popover for mini state
-		g.If(hasSubmenu,
-			Div(Class(`
-				absolute left-full top-0 ml-2 bg-gray-800 rounded-lg shadow-lg z-50 w-48
-				opacity-0 invisible translate-x-2
-				transition-all duration-200
-				[#sidebar-toggle:checked~*_.group:hover_&]:opacity-100
-				[#sidebar-toggle:checked~*_.group:hover_&]:visible
-				[#sidebar-toggle:checked~*_.group:hover_&]:translate-x-0
-			`),
-				Div(Class("py-1"),
-					g.Group(g.Map(item.SubItems, func(subItem MenuItem) g.Node {
-						return Div(
-							Class("flex items-center gap-3 px-3 py-2 hover:bg-gray-700/50 cursor-pointer"),
-							Div(Class("w-5 h-5 text-gray-400"),
-								getIcon(subItem.Icon),
-							),
-							Div(Class("text-sm font-medium text-gray-200"),
-								g.Text(subItem.Label),
-							),
-						)
-					})),
-				),
-			),
-		),
-		// Submenu for expanded state
+		// Submenu only if has submenu
 		g.If(hasSubmenu,
 			Div(Class(`
 				overflow-hidden transition-all duration-200 max-h-0
