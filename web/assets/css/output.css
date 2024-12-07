@@ -1336,7 +1336,15 @@ input[type="password"]:disabled {
   display: none;
 }
 
+.data-\[mini\=\"true\"\]\:hidden[data-mini="true"] {
+  display: none;
+}
+
 .data-\[collapsed\=\"false\"\]\:max-h-0[data-collapsed="false"] {
+  max-height: 0px;
+}
+
+.data-\[mini\=\"false\"\]\:max-h-0[data-mini="false"] {
   max-height: 0px;
 }
 
@@ -1344,6 +1352,14 @@ input[type="password"]:disabled {
   padding-left: 0px;
 }
 
+.data-\[mini\=\'true\'\]\:pl-0[data-mini='true'] {
+  padding-left: 0px;
+}
+
 .group:hover .group-hover\:data-\[collapsed\=\"true\"\]\:block[data-collapsed="true"] {
+  display: block;
+}
+
+.group:hover .group-hover\:data-\[mini\=\"true\"\]\:block[data-mini="true"] {
   display: block;
 }

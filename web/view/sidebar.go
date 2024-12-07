@@ -41,38 +41,35 @@ func Sidebar() g.Node {
 		Div(
 			Class("py-2 fixed flex flex-col h-screen bg-gray-800 text-white transition-all duration-300 ease-in-out w-64 overflow-y-auto overflow-x-hidden"),
 			g.Attr("x-data", `{
-				collapsed: false,
-				init() {
-					this.$watch('collapsed', value => {
-						// Handle width transitions
-						this.$el.style.width = value ? '64px' : '256px';
-						document.querySelector('.main-content').style.marginLeft = value ? '64px' : '256px';
+				mini: false,
+				toggleSidebar() {
+					this.mini = !this.mini;
+					$el.style.width = this.mini ? '64px' : '256px';
+					document.querySelector('.main-content').style.marginLeft = this.mini ? '64px' : '256px';
 
-						// Handle collapsible elements
-						this.$el.querySelectorAll('[x-bind\\:data-collapsed]').forEach(el => {
-							if (value) {
-								el.style.width = '0';
-								el.style.opacity = '0';
-								el.style.visibility = 'hidden';
-							} else {
-								el.style.width = 'auto';
-								el.style.opacity = '1';
-								el.style.visibility = 'visible';
-							}
-						});
-
-						// Close all submenus when collapsing
-						if (value) {
-							this.$el.querySelectorAll('.submenu').forEach(submenu => {
-								submenu.style.maxHeight = '0px';
-								const chevron = submenu.closest('.group').querySelector('.chevron svg');
-								if (chevron) chevron.style.transform = 'rotate(0deg)';
-							});
+					// Handle collapsible elements
+					$el.querySelectorAll('[x-bind\\:data-mini]').forEach(el => {
+						if (this.mini) {
+							el.style.width = '0';
+							el.style.opacity = '0';
+							el.style.visibility = 'hidden';
+						} else {
+							el.style.width = 'auto';
+							el.style.opacity = '1';
+							el.style.visibility = 'visible';
 						}
-					})
-				}
-			}`),
-			g.Attr("x-bind:data-collapsed", "collapsed"),
+					});
+
+					// Close all submenus when collapsing
+					if (this.mini) {
+						$el.querySelectorAll('.submenu').forEach(submenu => {
+							submenu.style.maxHeight = '0px';
+							const chevron = submenu.closest('.group').querySelector('.chevron svg');
+							if (chevron) chevron.style.transform = 'rotate(0deg)';
+						});
+					}
+				},
+			}`), g.Attr("x-bind:data-mini", "mini"),
 			// Header section
 			Div(Class("px-2"),
 				// Logo and title row
@@ -85,25 +82,25 @@ func Sidebar() g.Node {
 					),
 					// Title container
 					Div(Class("flex-1 transition-all duration-300 overflow-hidden"),
-						g.Attr("x-bind:data-collapsed", "collapsed"),
+						g.Attr("x-bind:data-mini", "mini"),
 						Div(Class("text-lg font-semibold whitespace-nowrap"), g.Text("Cubework")),
 						Div(Class("text-sm text-gray-400 whitespace-nowrap"), g.Text("Parking Admin")),
 					),
 					// Collapse button for expanded state
 					Div(Class("flex items-center"),
 						g.Attr("data-expanded-btn", "true"),
-						g.Attr("x-show", "!collapsed"),
+						g.Attr("x-show", "!mini"),
 						g.Attr("x-transition"),
 						Div(Class("cursor-pointer px-2 hover:bg-gray-700 rounded-lg"),
-							g.Attr("@click", "collapsed = true"),
+							g.Attr("@click", "toggleSidebar()"),
 							g.Raw(`<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"/></svg>`),
 						),
 					),
 				),
-				// Collapse button for collapsed state
+				// Collapse button for mini state
 				Div(
-					g.Attr("data-collapsed-btn", "true"),
-					g.Attr("x-show", "collapsed"),
+					g.Attr("data-mini-btn", "true"),
+					g.Attr("x-show", "mini"),
 					g.Attr("x-cloak", ""),
 					g.Attr("x-transition"),
 					// Added flex container for centering
@@ -111,7 +108,7 @@ func Sidebar() g.Node {
 						// Fixed width container for consistent spacing
 						Div(Class("w-16 h-16 flex items-center justify-center"),
 							Div(Class("cursor-pointer p-2 hover:bg-gray-700 rounded-lg"),
-								g.Attr("@click", "collapsed = false"),
+								g.Attr("@click", "toggleSidebar()"),
 								g.Raw(`<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"/></svg>`),
 							),
 						),
@@ -126,7 +123,7 @@ func Sidebar() g.Node {
 				return Div(Class("px-3"),
 					// Section header
 					Div(Class("text-sm font-medium text-gray-400 mb-2 transition-opacity duration-300"),
-						g.Attr("x-bind:data-collapsed", "collapsed"),
+						g.Attr("x-bind:data-mini", "mini"),
 						g.Text(section.Section),
 					),
 					// Section items
@@ -140,7 +137,7 @@ func Sidebar() g.Node {
 			Div(Class("mt-auto"),
 				// Projects label - hidden in mini variant
 				Div(Class("text-sm font-medium text-gray-400 px-3 mb-2 transition-all duration-300 overflow-hidden"),
-					g.Attr("x-bind:data-collapsed", "collapsed"),
+					g.Attr("x-bind:data-mini", "mini"),
 				),
 				// User profile container
 				Div(Class("flex items-center cursor-pointer hover:bg-gray-700/50 rounded-lg"),
@@ -154,7 +151,7 @@ func Sidebar() g.Node {
 					),
 					// User info and dropdown - hidden in mini variant
 					Div(Class("flex-1 flex items-center transition-all duration-300 overflow-hidden"),
-						g.Attr("x-bind:data-collapsed", "collapsed"),
+						g.Attr("x-bind:data-mini", "mini"),
 						// User info
 						Div(Class("flex flex-col"),
 							Div(Class("text-sm whitespace-nowrap"), g.Text("shadcn")),
@@ -176,15 +173,10 @@ func NavigationItem(item MenuItem) g.Node {
 	return Div(
 		Class("group relative"),
 		g.Attr("x-data", `{
-			init() {
-				this.$watch('collapsed', value => {
-					this.expanded = false;
-				})
-			},
 			expanded: false,
 			toggle() {
-				if(collapsed) return;
-				if (!this.$root.collapsed) {
+				if(mini) return;
+				if (!mini) {
 					this.expanded = !this.expanded;
 				}
 			}
@@ -200,7 +192,7 @@ func NavigationItem(item MenuItem) g.Node {
 			),
 			// Label and chevron container
 			Div(Class("flex-1 flex items-center transition-all duration-300 overflow-hidden"),
-				g.Attr("x-bind:data-collapsed", "collapsed"),
+				g.Attr("x-bind:data-mini", "mini"),
 				// Label
 				Div(Class("text-sm font-medium text-gray-200 whitespace-nowrap"),
 					g.Text(item.Label),
@@ -218,12 +210,12 @@ func NavigationItem(item MenuItem) g.Node {
 		g.If(hasSubmenu,
 			Div(Class(`
 				submenu overflow-hidden transition-all duration-200
-				data-[collapsed="false"]:max-h-0
-				data-[collapsed="true"]:hidden group-hover:data-[collapsed="true"]:block
+				data-[mini="false"]:max-h-0
+				data-[mini="true"]:hidden group-hover:data-[mini="true"]:block
 			`),
 				g.Attr("x-cloak", ""),
 				g.Attr("x-bind:style", `expanded ? 'max-height: ' + $el.scrollHeight + 'px' : 'max-height: 0px'`),
-				Div(Class("pl-10 py-1 space-y-1 data-[collapsed='true']:pl-0"),
+				Div(Class("pl-10 py-1 space-y-1 data-[mini='true']:pl-0"),
 					g.Group(g.Map(item.SubItems, func(subItem MenuItem) g.Node {
 						return Div(Class("flex items-center gap-3 px-3 py-2 hover:bg-gray-700/50 rounded-lg cursor-pointer"),
 							Div(Class("w-5 h-5 text-gray-400"),
