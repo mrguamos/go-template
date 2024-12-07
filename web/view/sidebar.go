@@ -42,6 +42,7 @@ func Sidebar() g.Node {
 			Class("py-2 fixed flex flex-col h-screen bg-gray-800 text-white transition-all duration-300 ease-in-out w-64 overflow-y-auto overflow-x-hidden"),
 			g.Attr("x-data", `{
 				mini: false,
+				expanded: [],
 				toggleSidebar() {
 					this.mini = !this.mini;
 					$el.style.width = this.mini ? '64px' : '256px';
@@ -60,13 +61,9 @@ func Sidebar() g.Node {
 						}
 					});
 
-					// Close all submenus when collapsing
+					// Clear expanded items when collapsing
 					if (this.mini) {
-						$el.querySelectorAll('.submenu').forEach(submenu => {
-							submenu.style.maxHeight = '0px';
-							const chevron = submenu.closest('.group').querySelector('.chevron svg');
-							if (chevron) chevron.style.transform = 'rotate(0deg)';
-						});
+						this.expanded = [];
 					}
 				},
 			}`), g.Attr("x-bind:data-mini", "mini"),
@@ -173,11 +170,14 @@ func NavigationItem(item MenuItem) g.Node {
 	return Div(
 		Class("group relative"),
 		g.Attr("x-data", `{
-			expanded: false,
 			toggle() {
 				if(mini) return;
 				if (!mini) {
-					this.expanded = !this.expanded;
+					if (expanded.includes('${item.Label}')) {
+						expanded = expanded.filter(i => i !== '${item.Label}')
+					} else {
+						expanded.push('${item.Label}')
+					}
 				}
 			}
 		}`),
@@ -200,7 +200,7 @@ func NavigationItem(item MenuItem) g.Node {
 				// Chevron
 				g.If(hasSubmenu,
 					Div(Class("chevron ml-auto pr-2"),
-						g.Attr("x-bind:style", `expanded ? 'transform: rotate(90deg)' : ''`),
+						g.Attr("x-bind:style", `expanded.includes('${item.Label}') ? 'transform: rotate(90deg)' : ''`),
 						g.Raw(`<svg class="w-4 h-4 text-gray-400 transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>`),
 					),
 				),
@@ -214,7 +214,7 @@ func NavigationItem(item MenuItem) g.Node {
 				data-[mini="true"]:hidden group-hover:data-[mini="true"]:block
 			`),
 				g.Attr("x-cloak", ""),
-				g.Attr("x-bind:style", `expanded ? 'max-height: ' + $el.scrollHeight + 'px' : 'max-height: 0px'`),
+				g.Attr("x-bind:style", `expanded.includes('${item.Label}') ? 'max-height: ' + $el.scrollHeight + 'px' : 'max-height: 0px'`),
 				Div(Class("pl-10 py-1 space-y-1 data-[mini='true']:pl-0"),
 					g.Group(g.Map(item.SubItems, func(subItem MenuItem) g.Node {
 						return Div(Class("flex items-center gap-3 px-3 py-2 hover:bg-gray-700/50 rounded-lg cursor-pointer"),
