@@ -125,9 +125,3 @@ input[type="password"] {
 [x-cloak] {
   display: none !important;
 }
-
-@layer components {
-  .peer-checked ~ .chevron {
-    transform: rotate(90deg);
-  }
-}

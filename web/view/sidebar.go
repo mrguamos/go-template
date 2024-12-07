@@ -40,117 +40,109 @@ var menuItems = []struct {
 
 func Sidebar() g.Node {
 	return Div(
-		// Hidden checkbox to control mini state
-		Input(
-			Type("checkbox"),
-			ID("sidebar-toggle"),
-			Class("hidden"),
-		),
-		Div(
-			Class(`
+		Class(`
 				py-2 fixed flex flex-col h-screen bg-gray-800 text-white transition-all duration-300 ease-in-out overflow-y-auto overflow-x-hidden
 				w-64 [#sidebar-toggle:checked~&]:w-16
 			`),
-			// Header section
-			Div(Class("px-2"),
-				// Logo and title row
-				Div(Class("flex items-center"),
-					// Logo container with fixed width for centering
-					Div(Class("w-16 h-16 flex items-center justify-center"),
-						Div(Class("w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center"),
-							g.Raw(`<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M2 4.75A2.75 2.75 0 014.75 2h10.5A2.75 2.75 0 0118 4.75v10.5A2.75 2.75 0 0115.25 18H4.75A2.75 2.75 0 012 15.25V4.75z"/></svg>`),
-						),
+		// Header section
+		Div(Class("px-2"),
+			// Logo and title row
+			Div(Class("flex items-center"),
+				// Logo container with fixed width for centering
+				Div(Class("w-16 h-16 flex items-center justify-center"),
+					Div(Class("w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center"),
+						g.Raw(`<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M2 4.75A2.75 2.75 0 014.75 2h10.5A2.75 2.75 0 0118 4.75v10.5A2.75 2.75 0 0115.25 18H4.75A2.75 2.75 0 012 15.25V4.75z"/></svg>`),
 					),
-					// Title container
-					Div(Class(`
+				),
+				// Title container
+				Div(Class(`
 						flex-1 transition-all duration-300 overflow-hidden
 						[#sidebar-toggle:checked~*_&]:w-0 [#sidebar-toggle:checked~*_&]:opacity-0 [#sidebar-toggle:checked~*_&]:invisible
 					`),
-						Div(Class("text-lg font-semibold whitespace-nowrap"), g.Text("Cubework")),
-						Div(Class("text-sm text-gray-400 whitespace-nowrap"), g.Text("Parking Admin")),
-					),
-					// Update the collapse button for expanded state
-					Div(Class(`
+					Div(Class("text-lg font-semibold whitespace-nowrap"), g.Text("Cubework")),
+					Div(Class("text-sm text-gray-400 whitespace-nowrap"), g.Text("Parking Admin")),
+				),
+				// Update the collapse button for expanded state
+				Div(Class(`
 						flex items-center
 						[#sidebar-toggle:checked~*_&]:hidden
 					`),
-						Label(
-							For("sidebar-toggle"),
-							Class("cursor-pointer px-2 hover:bg-gray-700 rounded-lg"),
-							g.Raw(`<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"/></svg>`),
-						),
+					Label(
+						For("sidebar-toggle"),
+						Class("cursor-pointer px-2 hover:bg-gray-700 rounded-lg"),
+						g.Raw(`<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"/></svg>`),
 					),
 				),
-				// Update the collapse button for mini state
-				Div(
-					Class(`
+			),
+			// Update the collapse button for mini state
+			Div(
+				Class(`
 						hidden [#sidebar-toggle:checked~*_&]:block
 					`),
-					// Added flex container for centering
-					Div(Class("flex justify-center"),
-						// Fixed width container for consistent spacing
-						Div(Class("w-16 h-16 flex items-center justify-center"),
-							Label(
-								For("sidebar-toggle"),
-								Class("cursor-pointer p-2 hover:bg-gray-700 rounded-lg"),
-								g.Raw(`<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"/></svg>`),
-							),
+				// Added flex container for centering
+				Div(Class("flex justify-center"),
+					// Fixed width container for consistent spacing
+					Div(Class("w-16 h-16 flex items-center justify-center"),
+						Label(
+							For("sidebar-toggle"),
+							Class("cursor-pointer p-2 hover:bg-gray-700 rounded-lg"),
+							g.Raw(`<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"/></svg>`),
 						),
 					),
 				),
 			),
-			// Dynamic menu sections
-			g.Group(g.Map(menuItems, func(section struct {
-				Section string
-				Items   []MenuItem
-			}) g.Node {
-				return Div(Class("px-3"),
-					// Section header
-					Div(Class(`
+		),
+		// Dynamic menu sections
+		g.Group(g.Map(menuItems, func(section struct {
+			Section string
+			Items   []MenuItem
+		}) g.Node {
+			return Div(Class("px-3"),
+				// Section header
+				Div(Class(`
 						text-sm font-medium text-gray-400 mb-2 transition-opacity duration-300
 						[#sidebar-toggle:checked~*_&]:opacity-0
 					`),
-						g.Text(section.Section),
-					),
-					// Section items
-					g.Group(g.Map(section.Items, func(item MenuItem) g.Node {
-						return NavigationItem(item)
-					})),
-				)
-			})),
+					g.Text(section.Section),
+				),
+				// Section items
+				g.Group(g.Map(section.Items, func(item MenuItem) g.Node {
+					return NavigationItem(item)
+				})),
+			)
+		})),
 
-			// Footer with user profile
-			Div(Class("mt-auto"),
-				// Projects label - hidden in mini variant
-				Div(Class(`
+		// Footer with user profile
+		Div(Class("mt-auto"),
+			// Projects label - hidden in mini variant
+			Div(Class(`
 					text-sm font-medium text-gray-400 px-3 mb-2 transition-all duration-300 overflow-hidden
 					[#sidebar-toggle:checked~*_&]:w-0 [#sidebar-toggle:checked~*_&]:opacity-0 [#sidebar-toggle:checked~*_&]:invisible
 				`),
-				),
-				// User profile container
-				Div(Class("flex items-center cursor-pointer hover:bg-gray-700/50 rounded-lg"),
-					// Avatar container with fixed width for centering
-					Div(Class("w-16 flex items-center justify-center"),
-						Img(
-							Class("w-8 h-8 rounded-lg"),
-							Src("https://avatars.githubusercontent.com/u/124599"),
-							Alt("User avatar"),
-						),
+			),
+			// User profile container
+			Div(Class("flex items-center cursor-pointer hover:bg-gray-700/50 rounded-lg"),
+				// Avatar container with fixed width for centering
+				Div(Class("w-16 flex items-center justify-center"),
+					Img(
+						Class("w-8 h-8 rounded-lg"),
+						Src("https://avatars.githubusercontent.com/u/124599"),
+						Alt("User avatar"),
 					),
-					// User info and dropdown - hidden in mini variant
-					Div(Class(`
+				),
+				// User info and dropdown - hidden in mini variant
+				Div(Class(`
 						flex-1 flex items-center transition-all duration-300 overflow-hidden
 						[#sidebar-toggle:checked~*_&]:w-0 [#sidebar-toggle:checked~*_&]:opacity-0 [#sidebar-toggle:checked~*_&]:invisible
 					`),
-						// User info
-						Div(Class("flex flex-col"),
-							Div(Class("text-sm whitespace-nowrap"), g.Text("shadcn")),
-							Div(Class("text-xs text-gray-400 whitespace-nowrap"), g.Text("m@example.com")),
-						),
-						// Dropdown arrow
-						Div(Class("ml-auto pr-4"),
-							g.Raw(`<svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>`),
-						),
+					// User info
+					Div(Class("flex flex-col"),
+						Div(Class("text-sm whitespace-nowrap"), g.Text("shadcn")),
+						Div(Class("text-xs text-gray-400 whitespace-nowrap"), g.Text("m@example.com")),
+					),
+					// Dropdown arrow
+					Div(Class("ml-auto pr-4"),
+						g.Raw(`<svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>`),
 					),
 				),
 			),

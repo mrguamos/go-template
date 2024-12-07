@@ -16,9 +16,14 @@ func Page(title string, body g.Node) g.Node {
 		},
 		Body: []g.Node{
 			Div(Class("flex min-h-screen"),
+				Input(
+					Type("checkbox"),
+					ID("sidebar-toggle"),
+					Class("hidden"),
+				),
 				Sidebar(),
 				// Main content area with transition
-				Div(Class("flex-1 ml-64 transition-all duration-300 main-content"),
+				Div(Class("flex-1 ml-64 transition-all duration-300 [#sidebar-toggle:checked~&]:ml-16"),
 					// Regular content
 					Div(Class("p-8"),
 						body,
@@ -40,9 +45,14 @@ func ErrorPage(title string, body g.Node, path, btnText string) g.Node {
 		},
 		Body: []g.Node{
 			Div(Class("flex min-h-screen"),
+				Input(
+					Type("checkbox"),
+					ID("sidebar-toggle"),
+					Class("hidden"),
+				),
 				Sidebar(),
 				// Main content area with transition
-				Div(Class("flex-1 ml-64 transition-all duration-300 main-content"),
+				Div(Class("flex-1 ml-64 transition-all duration-300 [#sidebar-toggle:checked~&]:ml-16"),
 					Div(Class("min-h-screen flex items-center justify-center p-8"),
 						Div(Class("max-w-md text-center"),
 							SVG(g.Attr("xmlns", "http://www.w3.org/2000/svg"), Width("24"), Height("24"), g.Attr("viewBox", "0 0 24 24"), g.Attr("fill", "none"), g.Attr("stroke", "currentColor"), g.Attr("stroke-width", "2"), g.Attr("stroke-linecap", "round"), g.Attr("stroke-linejoin", "round"), Class("mx-auto h-12 w-12 text-primary"),
