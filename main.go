@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 //go:embed web/assets/*
@@ -19,6 +20,7 @@ func main() {
 	// assetsFS := echo.MustSubFS(assets, "web/assets")
 	// e.StaticFS("/assets", assetsFS)
 	e.Static("/assets", "web/assets")
+	e.Use(middleware.Gzip())
 	e.Use(auth.AuthMiddlewareWithConfig(auth.AuthMiddlewareConfig{
 		Skipper: func(c echo.Context) bool {
 			fmt.Println(c.Path())
