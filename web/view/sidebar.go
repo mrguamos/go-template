@@ -1,6 +1,7 @@
 package view
 
 import (
+	"fmt"
 	"strings"
 
 	g "github.com/maragudk/gomponents"
@@ -153,16 +154,16 @@ func Sidebar() g.Node {
 func NavigationItem(item MenuItem) g.Node {
 	hasSubmenu := len(item.SubItems) > 0
 	checkboxID := strings.ReplaceAll(item.Label, " ", "-")
-	return Div(
-		Class("group relative"),
-		// Single checkbox for both chevron and submenu
+	return Div(Class("relative"),
 		g.If(hasSubmenu,
 			Input(
 				Type("checkbox"),
-				ID("submenu-"+checkboxID),
-				Class("peer hidden"),
+				ID(fmt.Sprintf("submenu-%s", checkboxID)),
+				Class("hidden"),
 			),
 		),
+		// Single checkbox for both chevron and submenu
+
 		Label(
 			g.If(hasSubmenu, For("submenu-"+checkboxID)),
 			Class("flex items-center hover:bg-gray-700/50 rounded-lg cursor-pointer px-2 py-2"),
@@ -181,26 +182,27 @@ func NavigationItem(item MenuItem) g.Node {
 					g.Text(item.Label),
 				),
 			),
-		),
-		// Chevron (sibling of submenu)
-		g.If(hasSubmenu,
-			Div(Class(`
-				absolute right-2 top-2.5 transition-transform duration-200
-				peer-checked:rotate-90
-				[#sidebar-toggle:checked~*_&]:hidden
-			`),
-				g.Raw(`<svg class="w-4 h-4 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+			// Chevron (sibling of submenu)
+			g.If(hasSubmenu,
+				Div(Class(fmt.Sprintf(`
+					absolute right-2 top-2.5 transition-transform duration-200
+					[#submenu-%s:checked~*_&]:rotate-90
+					[#sidebar-toggle:checked~*_&]:hidden
+				`, checkboxID)),
+					g.Raw(`<svg class="w-4 h-4 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor">
 					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
 				</svg>`),
+				),
 			),
 		),
+
 		// Submenu (sibling of chevron)
 		g.If(hasSubmenu,
-			Div(Class(`
+			Div(Class(fmt.Sprintf(`
 				overflow-hidden transition-all duration-200 max-h-0
-				peer-checked:max-h-[1000px]
+				[#submenu-%s:checked~&]:max-h-[1000px]
 				[#sidebar-toggle:checked~*_&]:hidden
-			`),
+			`, checkboxID)),
 				Div(Class("pl-10 py-1 space-y-1"),
 					g.Group(g.Map(item.SubItems, func(subItem MenuItem) g.Node {
 						return Div(Class("flex items-center gap-3 px-3 py-2 hover:bg-gray-700/50 rounded-lg cursor-pointer"),
