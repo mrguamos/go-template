@@ -46,7 +46,7 @@ templ NavigationItem(item MenuItem) {
 				</div>
 			</div>
 			<div class="flex-1 flex items-center transition-all duration-300 overflow-hidden [#sidebar-toggle:checked~*_&]:w-0 [#sidebar-toggle:checked~*_&]:opacity-0 [#sidebar-toggle:checked~*_&]:invisible">
-				<div class="text-sm font-medium text-gray-200 whitespace-nowrap">{ item.Label }</div>
+				<div class="text-sm font-medium text-gray-200 whitespace-nowrap">{item.Label}</div>
 			</div>
 			if len(item.SubItems) > 0 {
 				<div class="absolute right-2 top-2.5 transition-transform duration-200 group-has-[:checked]:rotate-90 [#sidebar-toggle:checked~*_&]:hidden">
