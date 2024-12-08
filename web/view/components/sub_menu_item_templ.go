@@ -60,7 +60,7 @@ func SubMenuItem(subItems []MenuItem) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div><div class=\"overflow-hidden transition-all duration-200 max-h-0 group-has-[:checked]:max-h-[1000px] [#sidebar-toggle:checked~*_&amp;]:hidden\"><div class=\"pl-10 py-1 space-y-1\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div><div class=\"grid transition-[grid-template-rows] duration-200 [grid-template-rows:0fr] group-has-[:checked]:[grid-template-rows:1fr] [#sidebar-toggle:checked~*_&amp;]:hidden\"><div class=\"overflow-hidden\"><div class=\"pl-10 py-1 space-y-1\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -80,7 +80,7 @@ func SubMenuItem(subItems []MenuItem) templ.Component {
 			var templ_7745c5c3_Var3 string
 			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(subItem.Label)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/view/components/sub_menu_item.templ`, Line: 23, Col: 67}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/view/components/sub_menu_item.templ`, Line: 24, Col: 68}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
@@ -91,7 +91,7 @@ func SubMenuItem(subItems []MenuItem) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

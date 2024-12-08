@@ -13,16 +13,18 @@ templ SubMenuItem(subItems []MenuItem) {
 			}
 		</div>
 	</div>
-	<div class="overflow-hidden transition-all duration-200 max-h-0 group-has-[:checked]:max-h-[1000px] [#sidebar-toggle:checked~*_&]:hidden">
-		<div class="pl-10 py-1 space-y-1">
-			for _, subItem := range subItems {
-				<div class="flex items-center gap-3 px-3 py-2 hover:bg-gray-700/50 rounded-lg cursor-pointer">
-					<div class="w-5 h-5 text-gray-400">
-						@getIconComponent(subItem.Icon)
+	<div class="grid transition-[grid-template-rows] duration-200 [grid-template-rows:0fr] group-has-[:checked]:[grid-template-rows:1fr] [#sidebar-toggle:checked~*_&]:hidden">
+		<div class="overflow-hidden">
+			<div class="pl-10 py-1 space-y-1">
+				for _, subItem := range subItems {
+					<div class="flex items-center gap-3 px-3 py-2 hover:bg-gray-700/50 rounded-lg cursor-pointer">
+						<div class="w-5 h-5 text-gray-400">
+							@getIconComponent(subItem.Icon)
+						</div>
+						<div class="text-sm font-medium text-gray-200">{ subItem.Label }</div>
 					</div>
-					<div class="text-sm font-medium text-gray-200">{ subItem.Label }</div>
-				</div>
-			}
+				}
+			</div>
 		</div>
 	</div>
 }
