@@ -1275,12 +1275,17 @@ input[type="password"]:disabled {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
-#sidebar-toggle:checked~.\[\#sidebar-toggle\:checked\~\&\]\:ml-16 {
-  margin-left: 4rem;
+.group:has(:checked) .group-has-\[\:checked\]\:max-h-\[1000px\] {
+  max-height: 1000px;
 }
 
-#sidebar-toggle:checked~.\[\#sidebar-toggle\:checked\~\&\]\:hidden {
-  display: none;
+.group:has(:checked) .group-has-\[\:checked\]\:rotate-90 {
+  --tw-rotate: 90deg;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+#sidebar-toggle:checked~.\[\#sidebar-toggle\:checked\~\&\]\:ml-16 {
+  margin-left: 4rem;
 }
 
 #sidebar-toggle:checked~.\[\#sidebar-toggle\:checked\~\&\]\:w-16 {
@@ -1303,10 +1308,6 @@ input[type="password"]:disabled {
   width: 0px;
 }
 
-#sidebar-toggle:checked~* .\[\#sidebar-toggle\:checked\~\*_\&\]\:w-16 {
-  width: 4rem;
-}
-
 #sidebar-toggle:checked~* .\[\#sidebar-toggle\:checked\~\*_\&\]\:opacity-0 {
   opacity: 0;
 }
@@ -1315,29 +1316,7 @@ input[type="password"]:disabled {
   max-height: 1000px;
 }
 
-#submenu-%s:checked~.\[\#submenu-\%s\:checked\~\&\]\:rotate-90 {
-  --tw-rotate: 90deg;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-
-#submenu-%s:checked~* .\[\#submenu-\%s\:checked\~\*_\&\]\:max-h-\[1000px\] {
-  max-height: 1000px;
-}
-
 #submenu-%s:checked~* .\[\#submenu-\%s\:checked\~\*_\&\]\:rotate-90 {
-  --tw-rotate: 90deg;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-
-#submenu-Settings:checked~.\[\#submenu-Settings\:checked\~\&\]\:max-h-\[1000px\] {
-  max-height: 1000px;
-}
-
-#submenu-Settings:checked~* .\[\#submenu-Settings\:checked\~\*_\&\]\:max-h-\[1000px\] {
-  max-height: 1000px;
-}
-
-#submenu-Settings:checked~* .\[\#submenu-Settings\:checked\~\*_\&\]\:rotate-90 {
   --tw-rotate: 90deg;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
