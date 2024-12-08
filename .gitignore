@@ -31,3 +31,4 @@ dist/
 .air.toml
 
 node_modules
+web/assets/css/output.css
