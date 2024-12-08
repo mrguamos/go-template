@@ -611,8 +611,16 @@ video {
   top: 0.625rem;
 }
 
+.right-0 {
+  right: 0px;
+}
+
 .z-\[100\] {
   z-index: 100;
+}
+
+.col-start-1 {
+  grid-column-start: 1;
 }
 
 .mx-auto {
@@ -646,6 +654,14 @@ video {
 
 .mt-auto {
   margin-top: auto;
+}
+
+.mt-2 {
+  margin-top: 0.5rem;
+}
+
+.-mt-12 {
+  margin-top: -3rem;
 }
 
 .inline {
@@ -740,12 +756,21 @@ video {
   width: 100%;
 }
 
+.w-fit {
+  width: -moz-fit-content;
+  width: fit-content;
+}
+
 .max-w-md {
   max-width: 28rem;
 }
 
 .flex-1 {
   flex: 1 1 0%;
+}
+
+.basis-full {
+  flex-basis: 100%;
 }
 
 .transform {
@@ -756,8 +781,16 @@ video {
   cursor: pointer;
 }
 
+.grid-cols-\[64px\2c 1fr\2c auto\] {
+  grid-template-columns: 64px 1fr auto;
+}
+
 .flex-col {
   flex-direction: column;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
 }
 
 .items-center {
@@ -768,14 +801,26 @@ video {
   justify-content: center;
 }
 
+.justify-items-center {
+  justify-items: center;
+}
+
 .gap-3 {
   gap: 0.75rem;
+}
+
+.gap-2 {
+  gap: 0.5rem;
 }
 
 .space-y-1 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-y-reverse: 0;
   margin-top: calc(0.25rem * calc(1 - var(--tw-space-y-reverse)));
   margin-bottom: calc(0.25rem * var(--tw-space-y-reverse));
+}
+
+.justify-self-end {
+  justify-self: end;
 }
 
 .overflow-hidden {
@@ -1316,8 +1361,24 @@ input[type="password"]:disabled {
   visibility: hidden;
 }
 
+#sidebar-toggle:checked~* .\[\#sidebar-toggle\:checked\~\*_\&\]\:right-1\/2 {
+  right: 50%;
+}
+
+#sidebar-toggle:checked~* .\[\#sidebar-toggle\:checked\~\*_\&\]\:top-16 {
+  top: 4rem;
+}
+
+#sidebar-toggle:checked~* .\[\#sidebar-toggle\:checked\~\*_\&\]\:mt-0 {
+  margin-top: 0px;
+}
+
 #sidebar-toggle:checked~* .\[\#sidebar-toggle\:checked\~\*_\&\]\:block {
   display: block;
+}
+
+#sidebar-toggle:checked~* .\[\#sidebar-toggle\:checked\~\*_\&\]\:flex {
+  display: flex;
 }
 
 #sidebar-toggle:checked~* .\[\#sidebar-toggle\:checked\~\*_\&\]\:hidden {
@@ -1328,6 +1389,36 @@ input[type="password"]:disabled {
   width: 0px;
 }
 
+#sidebar-toggle:checked~* .\[\#sidebar-toggle\:checked\~\*_\&\]\:translate-x-1\/2 {
+  --tw-translate-x: 50%;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+#sidebar-toggle:checked~* .\[\#sidebar-toggle\:checked\~\*_\&\]\:rotate-180 {
+  --tw-rotate: 180deg;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+#sidebar-toggle:checked~* .\[\#sidebar-toggle\:checked\~\*_\&\]\:grid-cols-1 {
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+#sidebar-toggle:checked~* .\[\#sidebar-toggle\:checked\~\*_\&\]\:grid-cols-\[64px\] {
+  grid-template-columns: 64px;
+}
+
+#sidebar-toggle:checked~* .\[\#sidebar-toggle\:checked\~\*_\&\]\:justify-center {
+  justify-content: center;
+}
+
+#sidebar-toggle:checked~* .\[\#sidebar-toggle\:checked\~\*_\&\]\:justify-self-center {
+  justify-self: center;
+}
+
 #sidebar-toggle:checked~* .\[\#sidebar-toggle\:checked\~\*_\&\]\:opacity-0 {
   opacity: 0;
+}
+
+#sidebar-toggle:not(:checked)~* .\[\#sidebar-toggle\:not\(\:checked\)\~\*_\&\]\:basis-auto {
+  flex-basis: auto;
 }
