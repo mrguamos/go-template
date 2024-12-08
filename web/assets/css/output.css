@@ -1266,15 +1266,6 @@ input[type="password"]:disabled {
   text-decoration-line: underline;
 }
 
-.peer:checked ~ .peer-checked\:max-h-\[1000px\] {
-  max-height: 1000px;
-}
-
-.peer:checked ~ .peer-checked\:rotate-90 {
-  --tw-rotate: 90deg;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-
 .group:has(:checked) .group-has-\[\:checked\]\:max-h-\[1000px\] {
   max-height: 1000px;
 }
@@ -1310,13 +1301,4 @@ input[type="password"]:disabled {
 
 #sidebar-toggle:checked~* .\[\#sidebar-toggle\:checked\~\*_\&\]\:opacity-0 {
   opacity: 0;
-}
-
-#submenu-%s:checked~.\[\#submenu-\%s\:checked\~\&\]\:max-h-\[1000px\] {
-  max-height: 1000px;
-}
-
-#submenu-%s:checked~* .\[\#submenu-\%s\:checked\~\*_\&\]\:rotate-90 {
-  --tw-rotate: 90deg;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }

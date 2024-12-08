@@ -36,9 +36,6 @@ var menuItems = []struct {
 			}},
 			{Label: "Settings1", Icon: "settings", SubItems: []MenuItem{
 				{Label: "General", Icon: "general"},
-				{Label: "Security", Icon: "security"},
-				{Label: "Notifications", Icon: "notifications"},
-				{Label: "Billing", Icon: "billing"},
 			}},
 		},
 	},
