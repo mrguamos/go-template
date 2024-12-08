@@ -1,0 +1,94 @@
+package components
+
+type MenuItem struct {
+	Label    string
+	Icon     string
+	SubItems []MenuItem
+}
+
+templ NavigationItem(item MenuItem) {
+	<div class="group relative" x-data="{showPopover: false}">
+		if len(item.SubItems) > 0 {
+			<input type="checkbox" id={ "submenu-" + item.Label } class="peer hidden menu-item-checkbox"/>
+		}
+		<label
+			if len(item.SubItems) > 0 {
+				for={ "submenu-" + item.Label }
+			}
+			x-data
+			@click={ `
+				if (document.querySelector('#sidebar-toggle').checked) {
+					showPopover = !showPopover;
+					Popper.createPopper(
+						$el,
+						$refs.popover,
+						{
+							placement: 'right-start',
+							strategy: 'fixed',
+							modifiers: [
+								{
+									name: 'offset',
+									options: {
+										offset: [10, 10]
+									}
+								}
+							]
+						}
+					);
+					$event.preventDefault();
+				}
+			` }
+			class="flex items-center hover:bg-gray-700/50 rounded-lg cursor-pointer px-2 py-2"
+		>
+			<div class="w-16 flex items-center justify-center">
+				<div class="w-5 h-5 text-gray-400">
+					@getIconComponent(item.Icon)
+				</div>
+			</div>
+			<div class="flex-1 flex items-center transition-all duration-300 overflow-hidden [#sidebar-toggle:checked~*_&]:w-0 [#sidebar-toggle:checked~*_&]:opacity-0 [#sidebar-toggle:checked~*_&]:invisible">
+				<div class="text-sm font-medium text-gray-200 whitespace-nowrap">{ item.Label }</div>
+			</div>
+			if len(item.SubItems) > 0 {
+				<div class="absolute right-2 top-2.5 transition-transform duration-200 group-has-[:checked]:rotate-90 [#sidebar-toggle:checked~*_&]:hidden">
+					<svg class="w-4 h-4 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+					</svg>
+				</div>
+			}
+		</label>
+		if len(item.SubItems) > 0 {
+			@SubMenuItem(item.SubItems)
+		}
+	</div>
+}
+
+templ getIconComponent(name string) {
+	switch name {
+		case "home":
+			@HomeIcon()
+		case "parking":
+			@ParkingIcon()
+		case "calendar":
+			@CalendarIcon()
+		case "users":
+			@UsersIcon()
+		case "entries":
+			@EntriesIcon()
+		case "user":
+			@UserIcon()
+		case "rfid":
+			@RFIDIcon()
+		case "settings":
+			@SettingsIcon()
+		case "general":
+			@GeneralIcon()
+		case "security":
+			@SecurityIcon()
+		case "notifications":
+			@NotificationsIcon()
+		case "billing":
+			@BillingIcon()
+		default:
+			@DefaultIcon()
+	}
+}

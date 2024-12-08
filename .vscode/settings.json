@@ -4,7 +4,8 @@
         "--fast"
     ],
     "tailwindCSS.includeLanguages": {
-        "go": "go"
+        "go": "go",
+        "templ": "html"
     },   
     "tailwindCSS.experimental.classRegex": [
         ["Class\\(([^)]*)\\)", "[\"`]([^\"`]*)[\"`]"], // Class("...") or Class(`...`)

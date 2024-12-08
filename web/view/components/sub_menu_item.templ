@@ -1,0 +1,28 @@
+package components
+
+templ SubMenuItem(subItems []MenuItem) {
+	<div class="fixed bg-gray-800 rounded-lg shadow-lg z-[100] w-48 p-2 border border-gray-700/50" x-ref="popover" x-show="showPopover" @click.away="showPopover = false">
+		<div class="space-y-1">
+			for _, subItem := range subItems {
+				<div class="flex items-center gap-3 px-3 py-2 rounded-lg cursor-pointer text-gray-200 hover:text-white hover:bg-gray-700/50 transition-colors duration-200">
+					<div class="w-5 h-5 text-gray-400">
+						@getIconComponent(subItem.Icon)
+					</div>
+					<div class="text-sm font-medium">{ subItem.Label }</div>
+				</div>
+			}
+		</div>
+	</div>
+	<div class="overflow-hidden transition-all duration-200 max-h-0 group-has-[:checked]:max-h-[1000px] [#sidebar-toggle:checked~*_&]:hidden">
+		<div class="pl-10 py-1 space-y-1">
+			for _, subItem := range subItems {
+				<div class="flex items-center gap-3 px-3 py-2 hover:bg-gray-700/50 rounded-lg cursor-pointer">
+					<div class="w-5 h-5 text-gray-400">
+						@getIconComponent(subItem.Icon)
+					</div>
+					<div class="text-sm font-medium text-gray-200">{ subItem.Label }</div>
+				</div>
+			}
+		</div>
+	</div>
+}

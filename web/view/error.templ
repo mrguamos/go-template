@@ -1,0 +1,17 @@
+package view
+
+templ NotFound() {
+	@ErrorPage("404", "Oops, the page you're looking for doesn't exist.", "/", "Go to Homepage")
+}
+
+templ Unauthorized() {
+	@ErrorPage("401", "Oops, it looks like you're not currently logged in.", "/login", "Go to Login Page")
+}
+
+templ Forbidden() {
+	@ErrorPage("403", "Oops, it looks like you don't have permission to access this page.", "/", "Go to Homepage")
+}
+
+templ InternalServerError() {
+	@ErrorPage("500", "We apologize for the inconvenience, but an unexpected error has occurred on our end. Please try again later or contact our support team if the issue persists.", "/", "Go to Homepage")
+}

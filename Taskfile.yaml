@@ -25,9 +25,10 @@ tasks:
     desc: "install dependencies"
     deps:
       - goose
-      - air
+      - wgo
       - node-dependencies
       - go-dependencies
+      - templ
   goose:
     internal: true
     cmds:
@@ -51,4 +52,12 @@ tasks:
   live-reload:
     internal: true
     cmds:
-      - "air"        
+      - "wgo -file=.go -file=.templ -xfile=_templ.go templ generate :: go run main.go"        
+  templ:
+    internal: true
+    cmds:
+      - "go install github.com/a-h/templ/cmd/templ@latest"
+  wgo:
+    internal: true
+    cmds:
+      - "go install github.com/bokwoon95/wgo@latest"    

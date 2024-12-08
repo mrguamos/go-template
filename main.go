@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/a-h/templ"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
@@ -44,19 +45,30 @@ func main() {
 	}
 	e.GET("/error", func(c echo.Context) error {
 		code := c.QueryParam("code")
-		var html string
+		var html templ.Component
 		switch code {
 		case "404":
-			html = fmt.Sprint(view.NotFound())
+			html = view.NotFound()
 		case "401":
-			html = fmt.Sprint(view.Unauthorized())
+			html = view.Unauthorized()
 		case "403":
-			html = fmt.Sprint(view.Forbidden())
+			html = view.Forbidden()
 		default:
-			html = fmt.Sprint(view.InternalServerError())
+			html = view.InternalServerError()
 		}
-		return c.HTML(http.StatusOK, html)
+		return Render(c, http.StatusOK, html)
 	})
 	auth.NewAuthRoute(e).Register()
 	e.Logger.Fatal(e.Start(":8080"))
+}
+
+func Render(ctx echo.Context, statusCode int, t templ.Component) error {
+	buf := templ.GetBuffer()
+	defer templ.ReleaseBuffer(buf)
+
+	if err := t.Render(ctx.Request().Context(), buf); err != nil {
+		return err
+	}
+
+	return ctx.HTML(statusCode, buf.String())
 }

@@ -1,0 +1,58 @@
+package view
+
+
+templ Page(title string, body templ.Component) {
+	<!DOCTYPE html>
+	<html lang="en">
+		<head>
+			<title>Template - { title }</title>
+			<link rel="stylesheet" href="/assets/css/output.css"/>
+		</head>
+		<body>
+			<div class="flex min-h-screen">
+				<input type="checkbox" id="sidebar-toggle" class="hidden"/>
+				@sidebar()
+				<div class="flex-1 ml-64 transition-all duration-300 [#sidebar-toggle:checked~&]:ml-16">
+					<div class="p-8">
+						@body
+					</div>
+				</div>
+			</div>
+		</body>
+	</html>
+}
+
+templ ErrorPage(title string, message string, path string, btnText string) {
+	<!DOCTYPE html>
+	<html lang="en">
+		<head>
+			<title>Template - { title }</title>
+			<link rel="stylesheet" href="/assets/css/output.css"/>
+			<link rel="icon" href="/assets/favicon.svg"/>
+			<script src="/assets/js/alpine.js" defer></script>
+			<script src="https://unpkg.com/@popperjs/core@2"></script>
+		</head>
+		<body>
+			<div class="flex min-h-screen">
+				<input type="checkbox" id="sidebar-toggle" class="hidden"/>
+				@sidebar()
+				<div class="flex-1 ml-64 transition-all duration-300 [#sidebar-toggle:checked~&]:ml-16">
+					<div class="min-h-screen flex items-center justify-center p-8">
+						<div class="max-w-md text-center">
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mx-auto h-12 w-12 text-primary">
+								<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"></path>
+								<path d="M12 9v4"></path>
+								<path d="M12 17h.01"></path>
+							</svg>
+							<h1 class="mt-4 text-6xl font-bold tracking-tight text-foreground">{ title }</h1>
+							<p class="mt-4 text-muted-foreground">{ message }</p>
+							<div class="mt-6">
+								<a href={ templ.SafeURL(path) } class="btn-primary">{ btnText }</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</body>
+	</html>
+}

@@ -1,0 +1,64 @@
+package view
+
+import "go-template/web/view/components"
+
+var menuItems = []struct {
+	Section string
+	Items   []components.MenuItem
+}{
+	{
+		Items: []components.MenuItem{
+			{Label: "Home", Icon: "home"},
+			{Label: "Parking Lots", Icon: "parking"},
+			{Label: "Bookings", Icon: "calendar"},
+			{Label: "Parker Accounts", Icon: "users"},
+			{Label: "Entries & Exits", Icon: "entries"},
+			{Label: "Users", Icon: "user"},
+			{Label: "RFID Tags", Icon: "rfid"},
+			{Label: "Settings", Icon: "settings", SubItems: []components.MenuItem{
+				{Label: "General", Icon: "general"},
+				{Label: "Security", Icon: "security"},
+				{Label: "Notifications", Icon: "notifications"},
+				{Label: "Billing", Icon: "billing"},
+			}},
+			{Label: "Settings1", Icon: "settings", SubItems: []components.MenuItem{
+				{Label: "General", Icon: "general"},
+			}},
+		},
+	},
+}
+
+templ sidebar() {
+	<div class="py-2 fixed flex flex-col h-screen bg-gray-800 text-white transition-all duration-300 ease-in-out overflow-y-auto overflow-x-hidden w-64 [#sidebar-toggle:checked~&]:w-16">
+		@components.SidebarHeader()
+		for _, section := range menuItems {
+			<div class="px-3">
+				<div class="text-sm font-medium text-gray-400 mb-2 transition-opacity duration-300 [#sidebar-toggle:checked~*_&]:opacity-0">
+					{ section.Section }
+				</div>
+				for _, item := range section.Items {
+					@components.NavigationItem(item)
+				}
+			</div>
+		}
+		<div class="mt-auto">
+			<div class="text-sm font-medium text-gray-400 px-3 mb-2 transition-all duration-300 overflow-hidden [#sidebar-toggle:checked~*_&]:w-0 [#sidebar-toggle:checked~*_&]:opacity-0 [#sidebar-toggle:checked~*_&]:invisible"></div>
+			<div class="flex items-center cursor-pointer hover:bg-gray-700/50 rounded-lg">
+				<div class="w-16 flex items-center justify-center">
+					<img class="w-8 h-8 rounded-lg" src="https://avatars.githubusercontent.com/u/124599" alt="User avatar"/>
+				</div>
+				<div class="flex-1 flex items-center transition-all duration-300 overflow-hidden [#sidebar-toggle:checked~*_&]:w-0 [#sidebar-toggle:checked~*_&]:opacity-0 [#sidebar-toggle:checked~*_&]:invisible">
+					<div class="flex flex-col">
+						<div class="text-sm whitespace-nowrap">shadcn</div>
+						<div class="text-xs text-gray-400 whitespace-nowrap">m@example.com</div>
+					</div>
+					<div class="ml-auto pr-4">
+						<svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+						</svg>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+}
