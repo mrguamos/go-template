@@ -71,6 +71,8 @@ func Sidebar() g.Node {
 						[#sidebar-toggle:checked~*_&]:hidden
 					`),
 					Label(
+						g.Attr("x-data", "{}"),
+						g.Attr("@click", "document.querySelectorAll('.menu-item-checkbox').forEach(checkbox => checkbox.checked = false);"),
 						For("sidebar-toggle"),
 						Class("cursor-pointer px-2 hover:bg-gray-700 rounded-lg"),
 						g.Raw(`<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"/></svg>`),
@@ -87,6 +89,7 @@ func Sidebar() g.Node {
 					// Fixed width container for consistent spacing
 					Div(Class("w-16 h-16 flex items-center justify-center"),
 						Label(
+
 							For("sidebar-toggle"),
 							Class("cursor-pointer p-2 hover:bg-gray-700 rounded-lg"),
 							g.Raw(`<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"/></svg>`),
@@ -157,17 +160,41 @@ func NavigationItem(item MenuItem) g.Node {
 	hasSubmenu := len(item.SubItems) > 0
 	checkboxID := strings.ReplaceAll(item.Label, " ", "-")
 	return Div(
+		g.Attr("x-data", "{showPopover: false}"),
 		Class("group relative"),
 		// Single checkbox for both chevron and submenu
 		g.If(hasSubmenu,
 			Input(
 				Type("checkbox"),
 				ID("submenu-"+checkboxID),
-				Class("peer hidden"),
+				Class("peer hidden menu-item-checkbox"),
 			),
 		),
 		Label(
 			g.If(hasSubmenu, For("submenu-"+checkboxID)),
+			g.Attr("x-data", "{}"),
+			g.Attr("@click", `
+				if (document.querySelector('#sidebar-toggle').checked) {
+					showPopover = !showPopover;
+					Popper.createPopper(
+						$el,
+						$refs.popover,
+						{
+							placement: 'right-start',
+							strategy: 'fixed',
+							modifiers: [
+								{
+									name: 'offset',
+									options: {
+										offset: [10, 10]
+									}
+								}
+							]
+						}
+					);
+					$event.preventDefault();
+				}
+			`),
 			Class("flex items-center hover:bg-gray-700/50 rounded-lg cursor-pointer px-2 py-2"),
 			// Icon container
 			Div(Class("w-16 flex items-center justify-center"),
@@ -194,6 +221,40 @@ func NavigationItem(item MenuItem) g.Node {
 					g.Raw(`<svg class="w-4 h-4 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor">
 					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
 				</svg>`),
+				),
+			),
+		),
+
+		// Popover for mini state
+		g.If(hasSubmenu,
+			Div(
+				Class(`
+					fixed bg-gray-800 rounded-lg shadow-lg
+					z-[100] w-48 p-2
+					border border-gray-700/50
+				`),
+				g.Attr("x-ref", "popover"),
+				g.Attr("x-show", "showPopover"),
+				g.Attr("@click.away", "showPopover = false"),
+				// Submenu items
+				Div(Class("space-y-1"),
+					g.Group(g.Map(item.SubItems, func(subItem MenuItem) g.Node {
+						return Div(
+							Class(`
+								flex items-center gap-3 px-3 py-2 
+								rounded-lg cursor-pointer
+								text-gray-200 hover:text-white
+								hover:bg-gray-700/50 
+								transition-colors duration-200
+							`),
+							Div(Class("w-5 h-5 text-gray-400"),
+								getIcon(subItem.Icon),
+							),
+							Div(Class("text-sm font-medium"),
+								g.Text(subItem.Label),
+							),
+						)
+					})),
 				),
 			),
 		),
