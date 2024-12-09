@@ -42,7 +42,7 @@ func Page(title string, body templ.Component) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</title><link rel=\"stylesheet\" href=\"/assets/css/output.css\"></head><body><div class=\"flex min-h-screen\"><input type=\"checkbox\" id=\"sidebar-toggle\" class=\"hidden\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</title><link rel=\"stylesheet\" href=\"/assets/css/output.css\"><link rel=\"icon\" href=\"/assets/favicon.svg\"><script src=\"/assets/js/alpine.js\" defer></script><script src=\"https://unpkg.com/@popperjs/core@2\"></script></head><body><div class=\"flex min-h-screen\"><input type=\"checkbox\" id=\"sidebar-toggle\" class=\"hidden\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -50,7 +50,7 @@ func Page(title string, body templ.Component) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex-1 ml-64 transition-all duration-300 [#sidebar-toggle:checked~&amp;]:ml-16\"><div class=\"p-8\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex-1 ml-64 transition-all duration-300 [#sidebar-toggle:checked~&amp;]:ml-16\"><div class=\"min-h-screen flex items-center justify-center p-8\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -94,7 +94,7 @@ func ErrorPage(title string, message string, path string, btnText string) templ.
 		var templ_7745c5c3_Var4 string
 		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(title)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/view/layout.templ`, Line: 29, Col: 28}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/view/layout.templ`, Line: 32, Col: 28}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 		if templ_7745c5c3_Err != nil {
@@ -115,7 +115,7 @@ func ErrorPage(title string, message string, path string, btnText string) templ.
 		var templ_7745c5c3_Var5 string
 		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(title)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/view/layout.templ`, Line: 47, Col: 81}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/view/layout.templ`, Line: 50, Col: 81}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 		if templ_7745c5c3_Err != nil {
@@ -128,7 +128,7 @@ func ErrorPage(title string, message string, path string, btnText string) templ.
 		var templ_7745c5c3_Var6 string
 		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(message)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/view/layout.templ`, Line: 48, Col: 54}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/view/layout.templ`, Line: 51, Col: 54}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
@@ -150,7 +150,7 @@ func ErrorPage(title string, message string, path string, btnText string) templ.
 		var templ_7745c5c3_Var8 string
 		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(btnText)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/view/layout.templ`, Line: 50, Col: 69}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/view/layout.templ`, Line: 53, Col: 69}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {

@@ -1,34 +1,34 @@
 package view
 
 templ loginContent() {
-	<div class="center-layout">
-		<div class="max-w-md w-full">
-			<form class="card pt-6" action="#" method="POST">
-				<div class="card-header">
-					<h3>Sign in to your account</h3>
-					<p>Don't have an account? <a href="/register" class="text-primary hover:underline">Register</a></p>
-				</div>
-				<div class="card-content">
-					<div>
-						<label>Email address</label>
-						<div class="mt-1">
-							<input type="email" name="email" id="email" autocomplete="email" required/>
-						</div>
-					</div>
-					<div>
-						<label>Password</label>
-						<div class="mt-1">
-							<input type="password" name="password" id="password" autocomplete="current-password" required/>
-						</div>
+
+	<div class="max-w-md w-full">
+		<form class="card pt-6" action="#" method="POST">
+			<div class="card-header">
+				<h3>Sign in to your account</h3>
+				<p>Don't have an account? <a href="/register" class="text-primary hover:underline">Register</a></p>
+			</div>
+			<div class="card-content">
+				<div>
+					<label>Email address</label>
+					<div class="mt-1">
+						<input type="email" name="email" id="email" autocomplete="email" required/>
 					</div>
 				</div>
-				<div class="card-footer">
-					<button type="submit" class="w-full btn-primary">Sign in</button>
-					<button type="submit" class="w-full btn-ghost">Forgot Password?</button>
+				<div>
+					<label>Password</label>
+					<div class="mt-1">
+						<input type="password" name="password" id="password" autocomplete="current-password" required/>
+					</div>
 				</div>
-			</form>
-		</div>
+			</div>
+			<div class="card-footer">
+				<button type="submit" class="w-full btn-primary">Sign in</button>
+				<button type="submit" class="w-full btn-ghost">Forgot Password?</button>
+			</div>
+		</form>
 	</div>
+
 }
 
 templ Login() {

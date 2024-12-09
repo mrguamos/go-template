@@ -1,7 +1,6 @@
 package auth
 
 import (
-	"fmt"
 	"go-template/web/view"
 
 	"net/http"
@@ -19,8 +18,7 @@ func NewAuthRoute(e *echo.Echo) *AuthRoute {
 
 func (ar *AuthRoute) Register() {
 	ar.e.GET("/login", func(c echo.Context) error {
-		html := fmt.Sprint(view.Login())
-		return c.HTML(http.StatusOK, html)
+		return view.Render(c, http.StatusOK, view.Login())
 	})
 	ar.e.POST("/login", func(c echo.Context) error {
 		return c.Redirect(http.StatusSeeOther, "/")

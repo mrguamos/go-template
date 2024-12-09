@@ -4,16 +4,19 @@ package view
 templ Page(title string, body templ.Component) {
 	<!DOCTYPE html>
 	<html lang="en">
-		<head>
+			<head>
 			<title>Template - { title }</title>
 			<link rel="stylesheet" href="/assets/css/output.css"/>
+			<link rel="icon" href="/assets/favicon.svg"/>
+			<script src="/assets/js/alpine.js" defer></script>
+			<script src="https://unpkg.com/@popperjs/core@2"></script>
 		</head>
 		<body>
 			<div class="flex min-h-screen">
 				<input type="checkbox" id="sidebar-toggle" class="hidden"/>
 				@sidebar()
 				<div class="flex-1 ml-64 transition-all duration-300 [#sidebar-toggle:checked~&]:ml-16">
-					<div class="p-8">
+					<div class="min-h-screen flex items-center justify-center p-8">
 						@body
 					</div>
 				</div>
