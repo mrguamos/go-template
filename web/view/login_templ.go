@@ -29,7 +29,7 @@ func loginContent() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"max-w-md w-full\"><form class=\"card pt-6\" action=\"#\" method=\"POST\"><div class=\"card-header\"><h3>Sign in to your account</h3><p>Don't have an account? <a href=\"/register\" class=\"text-primary hover:underline\">Register</a></p></div><div class=\"card-content\"><div><label>Email address</label><div class=\"mt-1\"><input type=\"email\" name=\"email\" id=\"email\" autocomplete=\"email\" required></div></div><div><label>Password</label><div class=\"mt-1\"><input type=\"password\" name=\"password\" id=\"password\" autocomplete=\"current-password\" required></div></div></div><div class=\"card-footer\"><button type=\"submit\" class=\"w-full btn-primary\">Sign in</button> <button type=\"submit\" class=\"w-full btn-ghost\">Forgot Password?</button></div></form></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<!doctype html><html lang=\"en\"><head><title>Template - Login</title><link rel=\"stylesheet\" href=\"/assets/css/output.css\"><link rel=\"icon\" href=\"/assets/favicon.svg\"></head><body><div class=\"flex min-h-screen\"><div class=\"flex-1\"><div class=\"min-h-screen flex items-center justify-center p-8\"><div class=\"max-w-md w-full\"><form class=\"card pt-6\" action=\"#\" method=\"POST\"><div class=\"card-header\"><h3>Sign in to your account</h3><p>Don't have an account? <a href=\"/register\" class=\"text-primary hover:underline\">Register</a></p></div><div class=\"card-content\"><div><label>Email address</label><div class=\"mt-1\"><input type=\"email\" name=\"email\" id=\"email\" autocomplete=\"email\" required></div></div><div><label>Password</label><div class=\"mt-1\"><input type=\"password\" name=\"password\" id=\"password\" autocomplete=\"current-password\" required></div></div></div><div class=\"card-footer\"><button type=\"submit\" class=\"w-full btn-primary\">Sign in</button> <button type=\"submit\" class=\"w-full btn-ghost\">Forgot Password?</button></div></form></div></div></div></div></body></html>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -58,7 +58,7 @@ func Login() templ.Component {
 			templ_7745c5c3_Var2 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = Page("Login", loginContent()).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = loginContent().Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

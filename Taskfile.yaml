@@ -12,6 +12,7 @@ tasks:
     cmds:
       - "rm -rf ./dist/*"
       - "npm run build"
+      - "templ generate"
       - "go build -o dist/{{.FINAL_NAME}} ."
   migration-create: #task migration-create -- init
     desc: "usage: task migration-create -- name_of_migration"
